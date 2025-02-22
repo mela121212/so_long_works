@@ -3,55 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 23:51:37 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/11/04 23:48:49 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/21 16:52:26 by carmelag          #+#    #+#             */
+/*   Updated: 2023/10/18 18:32:07 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "libft.h"
 
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
+int	ft_len(const char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while (src[i] != '\0' && i < n)
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+int	in_set(char c, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i] != '\0')
 	{
-		dest[i] = src[i];
+		if (set[i] == c)
+			return (1);
 		i++;
 	}
-	if (i < n && src[i] == '\0')
+	return (0);
+}
+
+int	find_start(char *s1, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] != '\0')
 	{
-		while (dest[i] != '\0')
-		{
-			dest[i] = '\0';
+		if (in_set(s1[i], set) == 1)
 			i++;
-		}
+		else
+			break ;
 	}
-	dest[i] = '\0';
-	return (dest);
+	return (i);
+}
+
+int	find_end(char *s1, char *set, int start)
+{
+	int	i;
+
+	i = ft_len(s1);
+	while (i > start)
+	{
+		if (in_set(s1[i - 1], set) == 1)
+			i--;
+		else
+			break ;
+	}
+	return (i);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	beg;
-	size_t	end;
-	char	*trimmed_str;
+	char	*str;
+	int		start;
+	int		end;
+	int		i;
 
-	if (!s1 || !set)
+	start = find_start((char *)s1, (char *)set);
+	end = find_end((char *)s1, (char *)set, start);
+	str = (char *)malloc(sizeof(char) * ((end - start) + 1));
+	if (str == NULL)
 		return (NULL);
-	beg = 0;
-	while (s1[beg] != '\0' && ft_strchr(set, s1[beg]) != NULL)
-		beg++;
-	end = ft_strlen(s1 + beg);
-	while (end > beg && ft_strchr(set, s1[beg + end - 1]) != NULL)
-		end--;
-	trimmed_str = malloc(end + 1 * sizeof(char));
-	if (trimmed_str == NULL)
-		return (NULL);
-	ft_strncpy(trimmed_str, (s1 + beg), end);
-	return (trimmed_str);
+	i = 0;
+	while (start < end)
+	{
+		str[i] = s1[start];
+		start++;
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
+/*
+int	main(void)
+{
+	const char    *s1 = "lorem ipsum dolor sit amet";
+	const char    *set = "te";
+
+    printf("%s", ft_strtrim(s1, set));
+    return (0);
+}*/

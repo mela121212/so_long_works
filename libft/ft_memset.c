@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 16:36:48 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2023/01/22 02:32:04 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 16:56:50 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/12 17:59:25 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *ptr, int x, size_t n)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	unsigned char	*conv_ptr;
+	unsigned char	*s;
 	size_t			i;
 
-	conv_ptr = (unsigned char *)ptr;
 	i = 0;
-	while (i < n)
+	s = b;
+	while (i < len)
 	{
-		*(conv_ptr + i) = x;
-		i += 1;
+		s[i] = (unsigned char)c;
+		i++;
 	}
-	return (ptr);
+	return (b);
 }
+
+//llena un bloque de memoria con un valor especifico

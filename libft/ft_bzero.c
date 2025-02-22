@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 17:46:16 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/08/14 17:56:05 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 16:36:59 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/12 16:58:12 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft.h" 
 
-void	ft_bzero(void *ptr, size_t n)
+void	ft_bzero(void *str, size_t n)
 {
-	unsigned char	*conv_ptr;
-	size_t			i;
+	size_t	i;
+	char	*p;
 
-	conv_ptr = (unsigned char *)ptr;
+	p = (char *)str;
 	i = 0;
 	while (i < n)
 	{
-		*(conv_ptr + i) = 0;
+		p[i] = 0;
 		i++;
 	}
 }
+
+/*Esta función es útil cuando necesitas asegurarte de que cierta parte 
+de la memoria de la computadora esté limpia y lista para usar, 
+como cuando creas una lista o un archivo nuevo.*/

@@ -1,55 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   itoa2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 02:47:05 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2023/01/23 22:53:24 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/10/18 17:00:38 by carmelag          #+#    #+#             */
+/*   Updated: 2023/10/18 17:21:34 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_digits(int n)
+int	count_digits(long nbr)
 {
-	int	digits;
+	int		len;
 
-	digits = 0;
-	if (n <= 0)
-		digits += 1;
-	while (n != 0)
+	len = 1;
+	if (nbr < 0)
+		len++;
+	while (nbr / 10 != 0)
 	{
-		n /= 10;
-		digits += 1;
+		nbr /= 10;
+		len++;
 	}
-	return (digits);
+	return (len);
+}
+
+void	ft_fill(char *result, int *i, long nbr)
+{
+	if (nbr >= 10)
+	{
+		ft_fill(result, i, nbr / 10);
+		ft_fill(result, i, nbr % 10);
+	}
+	else
+	{
+		result[*i] = nbr + '0';
+		(*i)++;
+	}
 }
 
 char	*ft_itoa(int n)
 {
-	int		digits;
-	int		signal;
 	char	*result;
+	int		i;
+	long	nbr;
 
-	digits = ft_digits(n);
-	signal = 1;
-	result = malloc((digits + 1) * sizeof(char));
-	if (!result)
+	nbr = n;
+	result = (char *) ft_calloc(count_digits(nbr) + 1, 1);
+	if (result == NULL)
 		return (NULL);
-	result[digits--] = '\0';
-	if (n < 0)
+	i = 0;
+	if (nbr < 0)
 	{
-		signal = -1;
-		result[0] = '-';
+		result[i++] = '-';
+		nbr *= -1;
 	}
-	else if (n == 0)
-		result[0] = '0';
-	while (n != 0)
-	{
-		result[digits--] = (n % 10 * signal) + '0';
-		n /= 10;
-	}
+	ft_fill(result, &i, nbr);
+	result[i] = 0;
 	return (result);
 }
+
+/*int main(void)
+{
+    int num1 = 12345;
+    char *str1 = ft_itoa(num1);
+    printf("Número: %d, String: %s\n", num1, str1);
+    free(str1);
+	return (0);
+}*/

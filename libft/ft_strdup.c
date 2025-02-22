@@ -3,29 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 00:47:52 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/10/02 02:09:00 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 17:59:37 by carmelag          #+#    #+#             */
+/*   Updated: 2023/10/02 16:07:22 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+char	ft_strcpy(char *dest, const char *src)
 {
-	unsigned int	i;
-	char			*dup_s;
+	int	i;
 
-	dup_s = malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (dup_s == NULL)
-		return (NULL);
 	i = 0;
-	while (s[i] != '\0')
+	while (src[i] != '\0')
 	{
-		dup_s[i] = s[i];
+		dest[i] = src[i];
 		i++;
 	}
-	dup_s[i] = '\0';
-	return (dup_s);
+	dest[i] = '\0';
+	return (*dest);
+}
+
+char	*ft_strdup(const char *src)
+{
+	char	*dest;
+	int		tam;
+
+	tam = ft_strlen(src);
+	dest = (char *)malloc(sizeof(*dest) * tam + 1);
+	if (!(dest))
+		return (NULL);
+	ft_strcpy(dest, src);
+	return (dest);
 }

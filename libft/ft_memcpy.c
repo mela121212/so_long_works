@@ -1,32 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 17:58:28 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/08/23 23:41:40 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 15:32:05 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/25 13:47:50 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char		*conv_dest;
-	const char	*conv_src;
-	size_t		i;
+	unsigned const char	*s;
+	unsigned char		*d;
+	size_t				i;
 
-	if (!src && !dest)
-		return (NULL);
-	conv_dest = (char *)dest;
-	conv_src = (char *)src;
+	s = (unsigned char *)src;
+	d = (unsigned char *)dst;
 	i = 0;
-	while (i < n)
+	if (dst == src || n == 0)
 	{
-		*(conv_dest + i) = *(conv_src + i);
+		return (dst);
+	}
+	while (n > i)
+	{
+		d[i] = s[i];
 		i++;
 	}
-	return (dest);
+	return (dst);
 }
+
+/*int main(void)
+{
+    size_t len = 10;
+    char src[] = "Hello";
+    char dest[10];
+
+    ft_memmove(dest, src, len);
+    printf("%s", dest);
+
+    return 0;
+}*/

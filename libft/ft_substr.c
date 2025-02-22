@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 01:23:22 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/11/04 23:58:50 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 14:45:19 by carmelag          #+#    #+#             */
+/*   Updated: 2023/10/18 18:00:56 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*sub_str;
-	unsigned int	i;
+	char	*str;
+	size_t	i;
+	size_t	len_s;
 
 	if (!s)
 		return (NULL);
-	if (start > ft_strlen(s))
-	{
-		sub_str = malloc(1 * sizeof(char));
-		if (!sub_str)
-			return (NULL);
-		sub_str[0] = '\0';
-		return (sub_str);
-	}
-	sub_str = malloc((len + 1) * sizeof(char));
-	if (!sub_str)
+	len_s = ft_strlen(s);
+	if (start >= (unsigned int)ft_strlen(s))
+		return (ft_strdup(""));
+	if (len > len_s - start)
+		len = len_s - start;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
 		return (NULL);
 	i = 0;
 	while (i < len)
-		sub_str[i++] = s[start++];
-	sub_str[i] = '\0';
-	return (sub_str);
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
+
+/* da problemas de memoria si no pones if (len > len_s -start)
+ * porque reserva memoria de más*/

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 23:09:37 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/11/04 01:03:58 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 14:45:19 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/25 16:49:45 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,33 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len_s1;
-	size_t	len_s2;
-	char	*final_str;
-	size_t	i;
-	size_t	j;
+	int		size;
+	int		i;
+	int		j;
+	char	*str;
 
-	if (!s1 || !s2)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	final_str = malloc((len_s1 + len_s2 + 1) * sizeof(char));
+	size = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (size + 1));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
 	j = 0;
-	if (final_str == NULL)
-		return (NULL);
-	while (j < len_s1)
-		final_str[i++] = s1[j++];
+	while (s1[j] != '\0')
+		str[i++] = s1[j++];
 	j = 0;
-	while (j < len_s2)
-		final_str[i++] = s2[j++];
-	final_str[i] = '\0';
-	return (final_str);
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (str);
 }
+
+/*int	main(void)
+{
+	char const	s1[] = "";
+	char const	s2[] = "";
+
+	printf("%s", ft_strjoin(s1, s2));
+	return (0);
+}*/

@@ -13,7 +13,9 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "libft.h"
+# include "../libft/libft.h"
+# include <fcntl.h> 
+# include <stdbool.h>
 # include "tiles.h"
 # include "keys.h"
 # include "error_messages.h"
@@ -104,10 +106,9 @@ int		quit_game(t_game *game);
 
 void	panic(t_game *game, char *error_msg);
 
-/* Destroys game ptr and all its inside fields */
 void	destroy(t_game *game);
 
-/* Frees matrix ptr and all its inside fields */
 void	free_matrix(char **matrix);
+char	*trim_free(char *s1, char const *set);
 
 #endif

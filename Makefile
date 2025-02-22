@@ -18,8 +18,8 @@ LIBFT = ./libft/libft.a
 RM = rm -rf
 NAME = so_long
 
-# Fuente principal
 SRCS = srcs/main.c \
+       srcs/aux.c \
 	   srcs/destroy.c \
 	   srcs/check_path.c \
 	   srcs/get_map.c \

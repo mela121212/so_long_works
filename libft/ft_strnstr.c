@@ -3,36 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/15 00:12:36 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/11/04 15:52:08 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 15:05:16 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/12 15:30:51 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(char *str, char *to_find, size_t len)
 {
-	size_t	i;
-	size_t	j;
+	unsigned int	i;
+	unsigned int	j;
 
-	if ((!little || !big) && len == 0)
-		return (NULL);
-	if (!*little)
-		return ((char *)big);
 	i = 0;
-	while (big[i] != '\0' && i < len)
+	if (to_find[0] == '\0')
+	{
+		return (str);
+	}
+	while (str[i] != '\0')
 	{
 		j = 0;
-		while (big[i + j] != '\0' && little[j] != '\0'
-			&& big[i + j] == little[j] && (i + j) < len)
+		while (str[i + j] == to_find[j] && (i + j) < len)
 		{
-			if (little[j + 1] == '\0')
-				return ((char *)&(big[i]));
+			if (to_find[j + 1] == '\0')
+			{
+				return (str + i);
+			}
 			j++;
 		}
 		i++;
 	}
-	return (NULL);
+	return (0);
 }

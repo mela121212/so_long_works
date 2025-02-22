@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 17:34:40 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/08/21 18:29:56 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/25 12:11:01 by carmelag          #+#    #+#             */
+/*   Updated: 2023/10/20 13:33:12 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	i;
-	char	*new_str;
+	char	*str;
+	int		i;
+	int		len;
 
 	i = 0;
-	if (!s || !f)
+	if (s == NULL || f == NULL)
 		return (NULL);
-	new_str = malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!new_str)
+	len = ft_strlen(s);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
 		return (NULL);
-	while (s[i])
+	while (i < len)
 	{
-		new_str[i] = f(i, s[i]);
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	new_str[i] = '\0';
-	return (new_str);
+	str[i] = '\0';
+	return (str);
 }
+
+//la diferencia con iteri es que esta no modifica la cadena original

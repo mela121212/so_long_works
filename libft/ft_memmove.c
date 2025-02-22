@@ -1,30 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 18:30:57 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/08/23 23:43:24 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 15:32:05 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/25 13:48:30 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t len)
 {
-	if (!src && !dest)
-		return (NULL);
-	if (src < dest)
+	char	*d;
+	char	*s;
+
+	d = (char *)dest;
+	s = (char *)src;
+	if (dest == src)
+		return (dest);
+	if (s < d)
 	{
-		while (n != 0)
-		{
-			n--;
-			((char *)dest)[n] = ((char *)src)[n];
-		}
+		while (len--)
+			*(d + len) = *(s + len);
+		return (dest);
 	}
-	else if (src > dest)
-		ft_memcpy(dest, src, n);
+	while (len--)
+		*d++ = *s++;
 	return (dest);
 }
+
+//maneja las situaciones de solapamiento (copia segura)
+//Si las áreas se solapan (caso src < dst), 
+//copia los bytes de atrás hacia adelante para evitar 
+//sobrescribir datos antes de que se hayan copiado.
+//si no se solapan copia de adelante a atras
+
+/*int main(void)
+{
+    size_t len = 10;
+    char src[] = "Hello";
+    char dest[10];
+
+    ft_memmove(dest, src, len);
+    printf("%s", dest);
+
+    return 0;
+}*/

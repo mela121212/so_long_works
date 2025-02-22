@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnuno-ca <nnuno-ca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: carmelag <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 23:55:13 by nnuno-ca          #+#    #+#             */
-/*   Updated: 2022/11/04 01:02:38 by nnuno-ca         ###   ########.fr       */
+/*   Created: 2023/09/12 15:32:05 by carmelag          #+#    #+#             */
+/*   Updated: 2023/09/19 16:54:50 by carmelag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_memcmp(const void *str1, const void *str2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	const unsigned char	*conv_str1;
-	const unsigned char	*conv_str2;
+	const unsigned char	*ss1;
+	const unsigned char	*ss2;
 	size_t				i;
 
-	conv_str1 = (unsigned char *)str1;
-	conv_str2 = (unsigned char *)str2;
 	i = 0;
-	if (n == 0)
-		return (0);
-	while ((conv_str1[i] == conv_str2[i]) && i < (n - 1))
+	ss1 = (const unsigned char *)s1;
+	ss2 = (const unsigned char *)s2;
+	while (i < n)
+	{
+		if (ss1[i] != ss2[i])
+			return (ss1[i] - ss2[i]);
 		i++;
-	return (conv_str1[i] - conv_str2[i]);
+	}
+	return (0);
 }
