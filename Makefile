@@ -15,47 +15,44 @@ CFLAGS = -Wall -Wextra -Werror
 MLXFLAGS = -L ./mlx -lmlx -Ilmlx -lXext -lX11
 INCLUDE = -I./includes
 LIBFT = ./libft/libft.a
-VPATH = srcs srcs/map srcs/utils
 RM = rm -rf
 NAME = so_long
 
-UTILS = destroy
-MAP = check_path get_map map_check render_map
-GENERAL = init_mlx player hook_n_run
+# Fuente principal
+SRCS = srcs/main.c \
+	   srcs/destroy.c \
+	   srcs/check_path.c \
+	   srcs/get_map.c \
+	   srcs/map_check.c \
+	   srcs/render_map.c \
+	   srcs/init_mlx.c \
+	   srcs/player.c \
+	   srcs/hook_n_run.c
 
-SRCS = $(addsuffix .c, $(UTILS))\
-	   $(addsuffix .c, $(MAP))\
-	   $(addsuffix .c, $(GENERAL))\
-	   main.c
-
-OBJ_DIR = obj
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SRCS:srcs/%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR)  $(OBJS)
+$(NAME): $(OBJS)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./mlx
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLXFLAGS) -o $(NAME)
 
 bonus: all
 
-$(OBJ_DIR):
-	mkdir -p obj
-
-$(OBJ_DIR)/%.o: %.c
+%.o: srcs/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
 clean:
 	$(MAKE) clean -C ./libft
-	$(RM) $(OBJ_DIR)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(MAKE) fclean -C ./libft
 	$(RM) $(NAME)
-	
+
 re: fclean all
 
 run: all clean
 
-.SILENT:
+.PHONY: all bonus clean fclean re run
