@@ -15,15 +15,15 @@
 static void	check_error_on_xpms(t_game *game)
 {	
 	if (!game->tiles.wall)
-		panic(game, WALL_XPM_ERR);
+		panic(game, "Failed to open wall image");
 	if (!game->tiles.floor)
-		panic(game, PLAYER_XPM_ERR);
+		panic(game, "Failed to open floor image");
 	if (!game->tiles.player)
-		panic(game, PLAYER_XPM_ERR);
+		panic(game, "Failed to open player image");
 	if (!game->tiles.collectible)
-		panic(game, COLLECTIBLE_XPM_ERR);
+		panic(game, "Failed to open collectible image");
 	if (!game->tiles.exit)
-		panic(game, EXIT_XPM_ERR);
+		panic(game, "Failed to open exit image");
 }
 
 static void	open_xpm(t_game *game)

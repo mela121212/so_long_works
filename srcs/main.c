@@ -15,9 +15,9 @@
 static void	args_check(int argc, char **argv)
 {
 	if (argc != 2)
-		panic(NULL, INVALID_NBR_ARGS);
+		panic(NULL, "Invalid number of arguments");
 	if (*argv[1] == '\0')
-		panic(NULL, NULL_MAP);
+		panic(NULL, "NULL map argument");
 }
 
 int	main(int argc, char **argv)
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 	t_game	game;
 
 	args_check(argc, argv);
-	game = init_game();
+	init_game(&game);
 	get_map(argv[1], &game);
 	map_check(&game);
 	init_mlx(&game);

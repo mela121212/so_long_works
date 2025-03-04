@@ -17,11 +17,11 @@
 static void	throw_error_if(t_game *game)
 {
 	if (game->map.exit == 0 || game->map.exit > 1)
-		panic(game, INVALID_NBR_EXITS);
+		panic(game, "Invalid number of Exits");
 	if (game->map.collectibles == 0)
-		panic(game, NO_COLLECTIBLES);
+		panic(game, "Map doesn't have any Collectible");
 	if (game->map.player == 0 || game->map.player > 1)
-		panic(game, INVALID_NBR_PLAYERS);
+		panic(game, "Invalid number of Starting Positions");
 }
 
 static void	check_elements(t_game *game)
@@ -36,7 +36,7 @@ static void	check_elements(t_game *game)
 		while (++j < game->map.columns)
 		{
 			if (!is_onstr(VALID_ENTITIES, game->map.map[i][j]))
-				panic(game, INVALID_ENTITY);
+				panic(game, "Invalid entity on map's file");
 			if (game->map.map[i][j] == EXIT)
 				game->map.exit += 1;
 			else if (game->map.map[i][j] == COLLECTIBLE)
@@ -51,22 +51,22 @@ static void	check_elements(t_game *game)
 	throw_error_if(game);
 }
 
-static bool	is_closed(t_map *map)
+static int	is_closed(t_map *map)
 {
 	int	i;
 
 	i = -1;
 	while (++i < map->rows)
 		if (map->map[i][0] != WALL || map->map[i][map->columns - 1] != WALL)
-			return (false);
+			return (0);
 	i = -1;
 	while (++i < map->columns)
 		if (map->map[0][i] != WALL || map->map[map->rows - 1][i] != WALL)
-			return (false);
-	return (true);
+			return (0);
+	return (1);
 }
 
-static bool	valid_form(t_game *game)
+static int	valid_form(t_game *game)
 {
 	size_t	len;
 	size_t	i;
@@ -76,18 +76,18 @@ static bool	valid_form(t_game *game)
 	while (game->map.map[i] != NULL)
 	{
 		if (len != ft_strlen(game->map.map[i]))
-			return (false);
+			return (0);
 		i += 1;
 	}
-	return (true);
+	return (1);
 }
 
 void	map_check(t_game *game)
 {
 	if (!valid_form(game))
-		panic(game, INVALID_FORMAT);
+		panic(game, "Invalid map format");
 	check_elements(game);
 	if (!is_closed(&game->map))
-		panic(game, MAP_NOT_CLOSED);
+		panic(game, "Map is not closed by walls");
 	check_path(game);
 }

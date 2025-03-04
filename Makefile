@@ -25,7 +25,7 @@ SRCS = srcs/main.c \
 	   srcs/get_map.c \
 	   srcs/map_check.c \
 	   srcs/render_map.c \
-	   srcs/init_mlx.c \
+	   srcs/init.c \
 	   srcs/player.c \
 	   srcs/hook_n_run.c
 

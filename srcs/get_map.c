@@ -12,17 +12,17 @@
 
 #include "so_long.h"
 
-static bool	valid_extension(char *map_file)
+static int	valid_ber(char *map_file)
 {
 	size_t	i;
 
 	i = ft_strlen(map_file) - 4;
 	if (ft_strncmp(".ber", &map_file[i], 4) == 0)
-		return (true);
-	return (false);
+		return (1);
+	return (0);
 }
 
-static void	get_nbr_rows(char *map_file, t_game *game)
+static void	count_rows(char *map_file, t_game *game)
 {
 	int		counter;
 	int		map_fd;
@@ -31,7 +31,7 @@ static void	get_nbr_rows(char *map_file, t_game *game)
 	counter = 0;
 	map_fd = open(map_file, O_RDONLY);
 	if (map_fd == -1)
-		panic(game, OPEN_MAP_FILE_ERR);
+		panic(game, "Failed to open map's file");
 	temp = get_next_line(map_fd);
 	while (temp)
 	{
@@ -40,19 +40,19 @@ static void	get_nbr_rows(char *map_file, t_game *game)
 		temp = get_next_line(map_fd);
 	}
 	if (counter == 0)
-		panic(game, EMPTY_MAP_FILE);
+		panic(game, "Map file is empty");
 	game->map.rows = counter;
 	close(map_fd);
 }
 
-static void	get_lines(char *map_file, t_game *game)
+static void	count_lines(char *map_file, t_game *game)
 {
 	int	map_fd;
 	int	i;
 
 	map_fd = open(map_file, O_RDONLY);
 	if (map_fd == -1)
-		panic(game, OPEN_MAP_FILE_ERR);
+		panic(game, "Failed to open map's file");
 	i = 0;
 	while (i < game->map.rows)
 		game->map.map[i++] = get_next_line(map_fd);
@@ -63,7 +63,7 @@ static void	get_lines(char *map_file, t_game *game)
 	{
 		game->map.map[i] = trim_free(game->map.map[i], "\n");
 		if (!game->map.map[i])
-			panic(game, MALLOC_ERR);
+			panic(game, "malloc() failed");
 		i += 1;
 	}
 	game->map.columns = ft_strlen(game->map.map[0]);
@@ -71,11 +71,11 @@ static void	get_lines(char *map_file, t_game *game)
 
 void	get_map(char *map_file, t_game *game)
 {
-	if (!valid_extension(map_file))
-		panic(game, INVALID_MAP_FILE);
-	get_nbr_rows(map_file, game);
+	if (valid_ber(map_file) == 0)
+		panic(game, "Invalid map file extension");
+	count_rows(map_file, game);
 	game->map.map = malloc((game->map.rows + 1) * sizeof(char *));
 	if (!game->map.map)
-		panic(game, MALLOC_ERR);
-	get_lines(map_file, game);
+		panic(game, "malloc() failed");
+	count_lines(map_file, game);
 }

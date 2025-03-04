@@ -20,14 +20,14 @@ static char	**blank_grid(t_game *game)
 	i = 0;
 	grid = ft_calloc((game->map.rows + 1), sizeof(char *));
 	if (!grid)
-		panic(game, MALLOC_ERR);
+		panic(game, "malloc() failed");
 	while (i < game->map.rows)
 	{
 		grid[i] = ft_strdup(game->map.map[i]);
 		if (!grid[i])
 		{
 			free_matrix(grid);
-			panic(game, MALLOC_ERR);
+			panic(game, "malloc() failed");
 		}
 		i += 1;
 	}
@@ -61,7 +61,7 @@ void	check_path(t_game *game)
 	if (!flood_fill(&game->map, game->map.player_pos, sol_grid))
 	{
 		free_matrix(sol_grid);
-		panic(game, UNACHIEVABLE_ENTITIES);
+		panic(game, "Map has unachievable entities");
 	}
 	free_matrix(sol_grid);
 }
