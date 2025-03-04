@@ -18,10 +18,8 @@
 # include <stdbool.h>
 # include "tiles.h"
 # include "keys.h"
-# include "error_messages.h"
 # include "../mlx/mlx.h"
 
-// CONSTANTS
 
 # define OPEN_SPACE '0'
 # define WALL '1'
@@ -33,6 +31,27 @@
 # define DESTROY_NOTIFY_EVENT 17
 
 # define WIN_MSG "You won, that's all folks!\n"
+
+# define WALL_TILE "./assets/wall.xpm"
+# define FLOOR_TILE "./assets/floor.xpm"
+# define PLAYER_TILE "./assets/player.xpm"
+# define ENEMY_TILE "./assets/ghost.xpm"
+# define COLLECTIBLE_TILE "./assets/coin.xpm"
+# define EXIT_TILE "./assets/exit.xpm"
+
+# define TILE_SIZE 64
+
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+
+# define UP 65362
+# define LEFT 65361
+# define DOWN 65364
+# define RIGHT 65363
+
+# define ESC 65307
 
 typedef struct s_point {
 	int	x;
@@ -65,49 +84,18 @@ typedef struct s_game {
 	int			moves;
 }				t_game;
 
-static inline t_game	init_game(void)
-{
-	return ((t_game){
-		.map.map = NULL,
-		.map.rows = 0,
-		.map.columns = 0,
-		.map.collectibles = 0,
-		.map.exit = 0,
-		.map.player = 0,
-		.tiles.collectible = NULL,
-		.tiles.exit = NULL,
-		.tiles.floor = NULL,
-		.tiles.player = NULL,
-		.tiles.wall = NULL,
-		.moves = -1,
-	});
-}
-
-/* Parses and saves the given map */
+void	init_game(t_game *game);
 void	get_map(char *map_file, t_game *game);
-/*	Checks if the map has a valid exit path
-and if all entities are achievable */
 void	check_path(t_game *game);
 void	map_check(t_game *game);
-
-/* Initializes mlx and win pointers*/
 void	init_mlx(t_game *game);
-
-/* Renders the respective tiles according to the characters on the map */
 void	render_map(t_game *game);
-
 void	update_player_pos(t_game *game, bool horizontal, int length);
-/* Renders player tile and moves counter */
 void	put_player_tile(t_game *game);
-
 void	hook_n_run(t_game *game);
-
 int		quit_game(t_game *game);
-
 void	panic(t_game *game, char *error_msg);
-
 void	destroy(t_game *game);
-
 void	free_matrix(char **matrix);
 char	*trim_free(char *s1, char const *set);
 
