@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	destroy_tiles(t_game *game)
+/*void	destroy_tiles(t_game *game)
 {
 	if (game->tiles.wall)
 		mlx_destroy_image(game->mlx_ptr, game->tiles.wall);
@@ -40,11 +40,37 @@ void	destroy(t_game *game)
 	}
 	if (game->map.map)
 		free_matrix(game->map.map);
+}*/
+
+
+void	destroy_game(t_game *game)
+{
+	if (!game)
+		return;
+	if (game->tiles.wall)
+		mlx_destroy_image(game->mlx_ptr, game->tiles.wall);
+	if (game->tiles.floor)
+		mlx_destroy_image(game->mlx_ptr, game->tiles.floor);
+	if (game->tiles.player)
+		mlx_destroy_image(game->mlx_ptr, game->tiles.player);
+	if (game->tiles.collectible)
+		mlx_destroy_image(game->mlx_ptr, game->tiles.collectible);
+	if (game->tiles.exit)
+		mlx_destroy_image(game->mlx_ptr, game->tiles.exit);
+	if (game->win_ptr)
+		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	if (game->mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx_ptr);
+		free(game->mlx_ptr);
+	}
+	if (game->map.map)
+		free_matrix(game->map.map);
 }
 
 void	panic(t_game *game, char *error_msg)
 {
-	destroy(game);
+	destroy_game(game);
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putendl_fd(error_msg, STDERR_FILENO);
 	exit(EXIT_FAILURE);

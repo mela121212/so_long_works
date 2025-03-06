@@ -16,8 +16,6 @@
 # include "../libft/libft.h"
 # include <fcntl.h> 
 # include <stdbool.h>
-# include "tiles.h"
-# include "keys.h"
 # include "../mlx/mlx.h"
 
 
@@ -84,18 +82,17 @@ typedef struct s_game {
 	int			moves;
 }				t_game;
 
-void	init_game(t_game *game);
 void	get_map(char *map_file, t_game *game);
 void	check_path(t_game *game);
 void	map_check(t_game *game);
-void	init_mlx(t_game *game);
-void	render_map(t_game *game);
-void	update_player_pos(t_game *game, bool horizontal, int length);
+void	open_xpm(t_game *game);
+void	render_tiles(t_game *game);
+void	update_player_pos(t_game *game, int dx, int dy);
 void	put_player_tile(t_game *game);
-void	hook_n_run(t_game *game);
+void	controls_and_start(t_game *game);
 int		quit_game(t_game *game);
 void	panic(t_game *game, char *error_msg);
-void	destroy(t_game *game);
+void	destroy_game(t_game *game);
 void	free_matrix(char **matrix);
 char	*trim_free(char *s1, char const *set);
 

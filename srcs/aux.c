@@ -1,5 +1,23 @@
 #include "../includes/so_long.h"
 
+void	free_matrix(char **matrix)
+{
+	size_t	i;
+
+	i = 0;
+	if (!matrix)
+		return ;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		matrix[i] = NULL;
+		i += 1;
+	}
+	if (i > 0)
+		free(matrix);
+	matrix = NULL;
+}
+
 static char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
@@ -41,20 +59,3 @@ char	*trim_free(char *s1, char const *set)
 	return (trimmed_str);
 }
 
-void	free_matrix(char **matrix)
-{
-	size_t	i;
-
-	i = 0;
-	if (!matrix)
-		return ;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i += 1;
-	}
-	if (i > 0)
-		free(matrix);
-	matrix = NULL;
-}

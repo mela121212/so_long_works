@@ -62,7 +62,27 @@ static void	update_left_behind_tile(t_game *game)
 			TILE_SIZE * game->map.player_pos.y);
 }
 
-void	update_player_pos(t_game *game, bool horizontal, int length)
+void	update_player_pos(t_game *game, int dx, int dy)
+{
+	int	new_x = game->map.player_pos.x + dx;
+	int	new_y = game->map.player_pos.y + dy;
+
+	// Evita que el jugador se mueva a través de una pared
+	if (game->map.map[new_y][new_x] == WALL)
+		return;
+
+	update_left_behind_tile(game);
+
+	// Actualiza la posición del jugador
+	game->map.player_pos.x = new_x;
+	game->map.player_pos.y = new_y;
+
+	which_tile(game);
+	put_player_tile(game);
+}
+
+
+/*void	update_player_pos(t_game *game, bool horizontal, int length)
 {
 	if (horizontal)
 	{
@@ -82,4 +102,4 @@ void	update_player_pos(t_game *game, bool horizontal, int length)
 	}
 	which_tile(game);
 	put_player_tile(game);
-}
+}*/

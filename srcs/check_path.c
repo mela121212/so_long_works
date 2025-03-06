@@ -34,31 +34,32 @@ static char	**blank_grid(t_game *game)
 	return (grid);
 }
 
-static bool	flood_fill(t_map *map, t_point curr, char **sol_grid)
+static int	flood_fill(t_map *map, t_point curr, char **sol_grid, int *coins, int *found_exit)
 {
-	static int		coins = 0;
-	static bool		found_exit = false;
-
 	if (sol_grid[curr.y][curr.x] == WALL)
-		return (false);
-	else if (sol_grid[curr.y][curr.x] == COLLECTIBLE)
-		coins += 1;
-	else if (sol_grid[curr.y][curr.x] == EXIT)
-		found_exit = true;
+		return (0);
+	if (sol_grid[curr.y][curr.x] == COLLECTIBLE)
+		*coins += 1;
+	if (sol_grid[curr.y][curr.x] == EXIT)
+		*found_exit = 1;
 	sol_grid[curr.y][curr.x] = WALL;
-	flood_fill(map, (t_point){curr.x + 1, curr.y}, sol_grid);
-	flood_fill(map, (t_point){curr.x - 1, curr.y}, sol_grid);
-	flood_fill(map, (t_point){curr.x, curr.y + 1}, sol_grid);
-	flood_fill(map, (t_point){curr.x, curr.y - 1}, sol_grid);
-	return (coins == map->collectibles && found_exit);
+	flood_fill(map, (t_point){curr.x + 1, curr.y}, sol_grid, coins, found_exit);
+	flood_fill(map, (t_point){curr.x - 1, curr.y}, sol_grid, coins, found_exit);
+	flood_fill(map, (t_point){curr.x, curr.y + 1}, sol_grid, coins, found_exit);
+	flood_fill(map, (t_point){curr.x, curr.y - 1}, sol_grid, coins, found_exit);
+	return (*coins == map->collectibles && *found_exit);
 }
 
 void	check_path(t_game *game)
 {
 	char	**sol_grid;
+	int		coins;
+	int		found_exit;
 
+	coins = 0;
+	found_exit = 0;
 	sol_grid = blank_grid(game);
-	if (!flood_fill(&game->map, game->map.player_pos, sol_grid))
+	if (!flood_fill(&game->map, game->map.player_pos, sol_grid, &coins, &found_exit))
 	{
 		free_matrix(sol_grid);
 		panic(game, "Map has unachievable entities");
