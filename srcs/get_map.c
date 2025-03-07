@@ -74,7 +74,7 @@ void	get_map(char *map_file, t_game *game)
 	if (valid_ber(map_file) == 0)
 		panic(game, "Invalid map file extension");
 	count_rows(map_file, game);
-	game->map.map = malloc((game->map.rows + 1) * sizeof(char *));
+	game->map.map = malloc((game->map.rows + 1) * sizeof(char *)); //este malloc puedo hacerlo dentro de count lines
 	if (!game->map.map)
 		panic(game, "malloc() failed");
 	count_lines(map_file, game);
