@@ -45,7 +45,7 @@ static void	count_rows(char *map_file, t_game *game)
 	close(map_fd);
 }
 
-static void	count_lines(char *map_file, t_game *game)
+static void	count_lines(char *map_file, t_game *game) //Cambia nombre count_colums
 {
 	int	map_fd;
 	int	i;
@@ -77,5 +77,5 @@ void	get_map(char *map_file, t_game *game)
 	game->map.map = malloc((game->map.rows + 1) * sizeof(char *)); //este malloc puedo hacerlo dentro de count lines
 	if (!game->map.map)
 		panic(game, "malloc() failed");
-	count_lines(map_file, game);
+	count_lines(map_file, game); //count_colums
 }
