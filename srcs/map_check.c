@@ -20,7 +20,7 @@ static int	is_closed(t_map *map)
 
 	i = -1;
 	while (++i < map->rows)
-		if (map->map[i][0] != WALL || map->map[i][map->columns - 1] != WALL)
+		if (map->map[i][0] != WALL || map->map[i][map->columns - 1] != WALL) //cambia wall por '1'
 			return (0);
 	i = -1;
 	while (++i < map->columns)
@@ -65,7 +65,39 @@ static void	count_elements(t_game *game)
 	}
 }
 
-static int	valid_form(t_game *game)
+/*static void	count_elements(t_game *game) // es para no usar on_str y que sea mas legible
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < game->map.rows)
+	{
+		j = -1;
+		while (++j < game->map.columns)
+		{
+			char c = game->map.map[i][j];
+
+			// Si el caracter no es válido, lanza un error
+			if (c != 'E' && c != 'C' && c != 'P' && c != '0' && c != '1')
+				panic(game, "Invalid entity on map's file");
+
+			// Contar los elementos importantes
+			if (c == 'E')
+				game->map.exit += 1;
+			else if (c == 'C')
+				game->map.collectibles += 1;
+			else if (c == 'P')
+			{
+				game->map.player += 1;
+				game->map.player_pos = (t_point){j, i};
+			}
+		}
+	}
+}*/
+
+
+static int	valid_form(t_game *game) //is_resctangle??
 {
 	size_t	len;
 	size_t	i;
