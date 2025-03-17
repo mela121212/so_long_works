@@ -66,3 +66,42 @@ void	check_path(t_game *game)
 	}
 	free_matrix(sol_grid);
 }
+/////////////////
+static int	flood_fill(t_map *map, t_point curr, char **sol_grid, int result[2])
+{
+	if (sol_grid[curr.y][curr.x] == WALL)
+		return (0);
+
+	if (sol_grid[curr.y][curr.x] == COLLECTIBLE)
+		result[0] += 1;
+
+	if (sol_grid[curr.y][curr.x] == EXIT)
+		result[1] = 1;
+
+	sol_grid[curr.y][curr.x] = WALL;
+
+	flood_fill(map, (t_point){curr.x + 1, curr.y}, sol_grid, result);
+	flood_fill(map, (t_point){curr.x - 1, curr.y}, sol_grid, result);
+	flood_fill(map, (t_point){curr.x, curr.y + 1}, sol_grid, result);
+	flood_fill(map, (t_point){curr.x, curr.y - 1}, sol_grid, result);
+
+	return (result[0] == map->collectibles && result[1]);
+}
+
+void	check_path(t_game *game)
+{
+	char	**sol_grid;
+	int		result[2]; // result[0] = coins, result[1] = found_exit
+
+	result[0] = 0;
+	result[1] = 0;
+	sol_grid = blank_grid(game);
+
+	if (!flood_fill(&game->map, game->map.player_pos, sol_grid, result))
+	{
+		free_matrix(sol_grid);
+		panic(game, "Map has unachievable entities");
+	}
+	free_matrix(sol_grid);
+}
+
